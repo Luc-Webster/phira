@@ -1,4 +1,7 @@
-use crate::{client::{Character, Ptr, User}, dir};
+use crate::{
+    client::{Character, Ptr, User},
+    dir,
+};
 use anyhow::Result;
 use chrono::{DateTime, Utc};
 use prpr::{
@@ -147,7 +150,7 @@ impl Data {
                 });
             }
         }
-        let respacks: HashSet<_> = self.respacks.iter().map(|s| s.clone()).collect();
+        let respacks: HashSet<_> = self.respacks.iter().cloned().collect();
         for entry in std::fs::read_dir(dir::respacks()?)? {
             let entry = entry?;
             let filename = entry.file_name();

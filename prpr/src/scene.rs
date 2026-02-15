@@ -43,8 +43,8 @@ pub enum NextScene {
 
 thread_local! {
     pub static BILLBOARD: RefCell<(BillBoard, TimeManager)> = RefCell::new((BillBoard::new(), TimeManager::default()));
-    pub static DIALOG: RefCell<Option<Dialog>> = RefCell::new(None);
-    pub static FULL_LOADING: RefCell<Option<FullLoadingView>> = RefCell::new(None);
+    pub static DIALOG: RefCell<Option<Dialog>> = const { RefCell::new(None) };
+    pub static FULL_LOADING: RefCell<Option<FullLoadingView>> = const { RefCell::new(None) };
 }
 
 pub struct FullLoadingView {
@@ -535,8 +535,7 @@ impl Main {
                     if Arc::strong_count(&loading.keep_alive) > 1 {
                         if let Some(text) = loading.text.as_ref() {
                             ui.full_loading(text.clone(), self.tm.now() as _);
-                        }
-                        else {
+                        } else {
                             ui.full_loading_simple(self.tm.now() as _);
                         }
                         return false;
